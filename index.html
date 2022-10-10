@@ -23,8 +23,9 @@
                     <input id="city-term" type="text">
                     <button id="search-btn" type="submit">Search</button>
                 </form>
+                <ul class="list-group"></ul>
             </div>
-            <div class="col-8">Weather container
+            <div class="col-8">
                 <div class="row">
                     <div class="column">
                         <h2 class="city"></h2>
@@ -35,9 +36,11 @@
                     </div>
 
                 </div>
+            </div>
+        </div>
+        <div class="row" id="forecast">
 
-                <div class="row">
-                    <div class="column">
+            <!-- <div class="column">
                         <h2 class="date1"></h2>
                         <div class="temp1"></div>
                         <div class="description"></div>
@@ -72,14 +75,16 @@
                         <div class="description"></div>
                         <div class="humidity5"></div>
                         <div class="wind5"></div>
-                    </div>
+                    </div> -->
 
 
-                </div>
+        </div>
 
-                <div class="row">Forecast container
-                </div>
+
     </main>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
     <script src="script.js"></script>
 </body>
 

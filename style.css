@@ -1,3 +1,13 @@
 header {
     height: 20vh;
 }
+
+.container{
+    max-width: 1500px;
+}
+
+#forecast{
+    margin-left: 500px;
+    color: rgb(79, 79, 217);
+}
+

@@ -3,9 +3,10 @@
 //Run function to turn city name into lat and lon
 //Run function to get weather
 //???? profit
-var day = moment();
+var day = moment().format("dddd, MMM Do, YYYY");
 console.log(day)
 var searchBtn = document.getElementById("search-btn");
+var cityArr = JSON.parse(localStorage.getItem("cityArr"))||[]
 
 
 function getLatLon(cityName) {
@@ -27,6 +28,13 @@ function getWeather(lat, lon) {
             return response.json()
         }).then(function (data) {
             console.log(data)
+            if (!cityArr.includes(data.name)){
+
+                cityArr.push(data.name)
+                localStorage.setItem("cityArr", JSON.stringify(cityArr))
+                buildMenu()
+            }
+            
             displayWeather(data)
 
         })
@@ -46,21 +54,40 @@ function getWeather(lat, lon) {
         .then(function (response) {
             return response.json()
         }).then(function (data) {
+            var forecastArray = []
             console.log(data)
-            const { date } = moment.unix(data.list[4].dt);
-            const { description } = data.weather[0];
-            const { temp, humidity } = data.main;
-            console.log(name, description, temp, humidity)
-            document.querySelector(".date1").innerText = date;
-            document.querySelector(".description").innerText = description;
-            document.querySelector(".temp").innerText = temp + "°F";
-            document.querySelector(".humidity").innerText = "Humidity " + humidity + "%";
+            for (var i = 0; i< data.list.length; i++){
+                
+                var targetTime = data.list[i].dt_txt.split(" ")[1]
+                
+                if(targetTime==="12:00:00"){
+                    forecastArray.push(data.list[i])
+                }
+                
+                
+            }
+            for (var i = 0; i < forecastArray.length; i++){
+                var date = moment.unix(forecastArray[i].dt).format("ddd")
+                console.log(date)
+                var column = $("<div>").addClass("col-2 card")
+                var header = $("<h3>").addClass("card-header").text(date)
+                var temp = $("<p>").addClass("card-text").text(forecastArray[i].main.temp) 
+                // var description = $("<p>").addClass("card-text").text(forecastArray.weather.description)
+                $("#forecast").append(column.append(header, temp,))
+            }
         })
 
 
 }
 
-
+function buildMenu (){
+    for (var i = 0; i<cityArr.length; i++){
+        var li = $("<li>").addClass("list-group-item")
+            
+        $(".list-group").append(li)
+    }
+}
+buildMenu()
 
 
 searchBtn.addEventListener("click", function (event) {
