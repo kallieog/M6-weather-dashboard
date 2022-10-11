@@ -6,7 +6,7 @@
 var day = moment().format("dddd, MMM Do, YYYY");
 console.log(day)
 var searchBtn = document.getElementById("search-btn");
-var cityArr = JSON.parse(localStorage.getItem("cityArr"))||[]
+var cities = [];
 
 
 function getLatLon(cityName) {
@@ -28,10 +28,10 @@ function getWeather(lat, lon) {
             return response.json()
         }).then(function (data) {
             console.log(data)
-            if (!cityArr.includes(data.name)){
+            if (!cities.includes(data.name)){
 
-                cityArr.push(data.name)
-                localStorage.setItem("cityArr", JSON.stringify(cityArr))
+                cities.push(data.name)
+                localStorage.setItem("cityArr", JSON.stringify(cities))
                 buildMenu()
             }
             
@@ -40,13 +40,17 @@ function getWeather(lat, lon) {
         })
     function displayWeather(data) {
         const { name } = data;
-        const { description } = data.weather[0];
+        const { icon, description } = data.weather[0];
         const { temp, humidity } = data.main;
-        console.log(name, description, temp, humidity)
+        const { speed } = data.wind
+        console.log(name, description, temp, humidity, speed)
         document.querySelector(".city").innerText = "Weather in " + name;
+        document.querySelector(".icon").src =
+        "https://openweathermap.org/img/wn/" + icon + "@2x.png"
         document.querySelector(".description").innerText = description;
         document.querySelector(".temp").innerText = temp + "°F";
         document.querySelector(".humidity").innerText = "Humidity " + humidity + "%";
+        document.querySelector(".wind").innerText = "Wind " + speed + "MPH";
     }
 
 
@@ -66,14 +70,19 @@ function getWeather(lat, lon) {
                 
                 
             }
+            $(".rmv").remove();
             for (var i = 0; i < forecastArray.length; i++){
                 var date = moment.unix(forecastArray[i].dt).format("ddd")
                 console.log(date)
-                var column = $("<div>").addClass("col-2 card")
-                var header = $("<h3>").addClass("card-header").text(date)
-                var temp = $("<p>").addClass("card-text").text(forecastArray[i].main.temp) 
-                // var description = $("<p>").addClass("card-text").text(forecastArray.weather.description)
-                $("#forecast").append(column.append(header, temp,))
+                var column = $("<div>").addClass("col-2 card rmv")
+                var header = $("<h3>").addClass("card-header rmv").text(date)
+                var temp = $("<p>").addClass("card-text rmv").text(forecastArray[i].main.temp) 
+                var icon = $(`<img src = https://openweathermap.org/img/wn/${forecastArray[i].weather[0].icon}@2x.png class="rmv"></img>`)
+                var description = $("<p>").addClass("card-text rmv").text(forecastArray[i].weather[0].description)
+                var humidity = $("<p>").addClass("card-text rmv").text(forecastArray[i].main.humidity.innerText = "Humidity " + humidity + "%")
+                var speed = $("<p>").addClass("card-text rmv").text(forecastArray[i].wind.speed)
+                $("#forecast").append(column.append(header, temp, icon, description, humidity, speed ))
+                console.log(description)
             }
         })
 
@@ -81,13 +90,16 @@ function getWeather(lat, lon) {
 }
 
 function buildMenu (){
+    $(".list-group-item").remove()
+var cityArr = JSON.parse(localStorage.getItem("cityArr"));
+
     for (var i = 0; i<cityArr.length; i++){
-        var li = $("<li>").addClass("list-group-item")
+        var li = $("<li>").addClass("list-group-item").text(cityArr[i])
             
         $(".list-group").append(li)
     }
 }
-buildMenu()
+
 
 
 searchBtn.addEventListener("click", function (event) {

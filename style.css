@@ -1,7 +1,26 @@
+body{
+    background-image: url("https://source.unsplash.com/1600x900/?landscape")
+    
+}
+.list-group{
+    width: 230px;
+    margin-left: 3px;
+}
+h1{
+    background: #000000d0;
+    color: white;
+    justify-items: center;
+}
 header {
     height: 20vh;
 }
-
+.column{
+    background: #000000d0;
+    padding: 2em;
+    border-radius: 30px;
+    margin-left: 215px;
+    color: white
+}
 .container{
     max-width: 1500px;
 }
