@@ -77,10 +77,10 @@ function getWeather(lat, lon) {
                 var column = $("<div>").addClass("col-2 card rmv")
                 var header = $("<h3>").addClass("card-header rmv").text(date)
                 var temp = $("<p>").addClass("card-text rmv").text(forecastArray[i].main.temp) 
-                var icon = $(`<img src = https://openweathermap.org/img/wn/${forecastArray[i].weather[0].icon}@2x.png class="rmv"></img>`)
+                var icon = $(`<img src = https://openweathermap.org/img/wn/${forecastArray[i].weather[0].icon}@2x.png class="rmv"></img>`);
                 var description = $("<p>").addClass("card-text rmv").text(forecastArray[i].weather[0].description)
-                var humidity = $("<p>").addClass("card-text rmv").text(forecastArray[i].main.humidity.innerText = "Humidity " + humidity + "%")
-                var speed = $("<p>").addClass("card-text rmv").text(forecastArray[i].wind.speed)
+                var humidity = $("<p>").addClass("card-text rmv").text( "Humidity " + forecastArray[i].main.humidity + "%");
+                var speed = $("<p>").addClass("card-text rmv").text("Wind " + forecastArray[i].wind.speed + " MPH");
                 $("#forecast").append(column.append(header, temp, icon, description, humidity, speed ))
                 console.log(description)
             }
@@ -94,9 +94,12 @@ function buildMenu (){
 var cityArr = JSON.parse(localStorage.getItem("cityArr"));
 
     for (var i = 0; i<cityArr.length; i++){
-        var li = $("<li>").addClass("list-group-item").text(cityArr[i])
-            
-        $(".list-group").append(li)
+      
+        var li = $(`<a onclick="getLatLon(${JSON.stringify(cityArr[i])})"></a>`).addClass(`list-group-item ${[i]}`).text(cityArr[i]);
+        $(".list-group").append(li);
+        var item = document.getElementsByClassName(`${[i]}`);
+        console.log(item);
+        
     }
 }
 
